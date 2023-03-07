@@ -1,11 +1,8 @@
 package com.alibou.security.config;
 
-import com.alibou.security.user.Role;
-import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -27,11 +24,11 @@ public class SecurityConfiguration {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth/**")
-                .permitAll()
+                .requestMatchers("/swagger-ui/**", "/v3/**", "/swagger-resources/**").permitAll()
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/product").hasAuthority("ADMIN")
                 .requestMatchers("/api/v1/demo-controller/hello").hasAuthority("ADMIN")
-                .anyRequest()
-                .authenticated()
+                .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

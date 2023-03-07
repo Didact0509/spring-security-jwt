@@ -10,6 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -17,16 +18,17 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "_user")
+@Table(name = "users")
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue
-    private Integer id;
+    private Integer userId;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
+    private Date createdDate;
 
     @Enumerated(EnumType.STRING)
     private Role role;
