@@ -14,30 +14,30 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
-@Tag(name = "帳號註冊", description = "帳號註冊、認證")
+@Tag(name = "帳號註冊", description = " 帳號註冊、認證")
 @RequiredArgsConstructor
 public class AuthenticationController {
 
     private final AuthenticationService service;
 
-    @Operation(summary = " USER 帳號註冊")
     @PostMapping("/register/user")
+    @Operation(summary = " USER 帳號註冊", description = " 輸入帳號資訊, ")
     public ResponseEntity<AuthenticationResponse> registerUser(
             @RequestBody RegisterRequest request
     ) {
         return ResponseEntity.ok(service.registerUser(request));
     }
 
-    @Operation(summary = " ADMIN 帳號註冊")
     @PostMapping("/register/admin")
+    @Operation(summary = " ADMIN 帳號註冊")
     public ResponseEntity<AuthenticationResponse> registerAdmin(
             @RequestBody RegisterRequest request
     ) {
         return ResponseEntity.ok(service.registerAdmin(request));
     }
 
-    @Operation(summary = " 登入取得認證")
     @PostMapping("/authenticate")
+    @Operation(summary = " 登入取得認證")
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request
     ) {

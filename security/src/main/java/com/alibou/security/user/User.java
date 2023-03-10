@@ -1,6 +1,8 @@
 package com.alibou.security.user;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,11 +24,17 @@ import java.util.List;
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @SequenceGenerator(name = "users_seq", allocationSize = 1)
     private Integer userId;
+    @NotNull
     private String firstName;
+    @NotNull
     private String lastName;
+    @Email
+    @NotNull
     private String email;
+    @NotNull
     private String password;
     private Date createdDate;
 
