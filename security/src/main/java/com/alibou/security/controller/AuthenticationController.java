@@ -9,6 +9,8 @@ import com.alibou.security.user.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,9 +21,10 @@ import org.springframework.web.bind.annotation.*;
 public class AuthenticationController {
 
     private final AuthenticationService service;
+    private final static Logger log = LoggerFactory.getLogger(AuthenticationController.class);
 
     @PostMapping("/register/user")
-    @Operation(summary = " USER 帳號註冊", description = " 輸入帳號資訊, ")
+    @Operation(summary = " USER 帳號註冊", description = " 輸入帳號資訊")
     public ResponseEntity<AuthenticationResponse> registerUser(
             @RequestBody RegisterRequest request
     ) {
@@ -41,6 +44,7 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request
     ) {
+        log.info("帳號 {} 登入系統, 取得認證", request.getEmail());
         return ResponseEntity.ok(service.authenticate(request));
     }
 
