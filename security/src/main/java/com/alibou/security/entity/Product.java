@@ -25,7 +25,6 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @SequenceGenerator(name = "product_seq", allocationSize = 1)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Integer productId;
     @NotNull

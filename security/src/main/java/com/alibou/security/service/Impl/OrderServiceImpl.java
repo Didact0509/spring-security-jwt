@@ -19,9 +19,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Component
 public class OrderServiceImpl implements OrderService {
@@ -42,7 +40,15 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderSum> getOrdersById(Integer userId) {
-        return orderRepository.findOrderSumsByUserId(userId);
+        List<OrderSum> orderSumList = orderRepository.findOrderSumsByUserId(userId);
+
+        for (OrderSum orderSum : orderSumList) {
+            List<OrderItem> orderItemList = orderItemRepository.findAll();
+
+            orderSum.setOrderItemList(orderItemList);
+        }
+
+        return orderSumList;
     }
 
     @Transactional
@@ -71,15 +77,15 @@ public class OrderServiceImpl implements OrderService {
             }
 
             // update 產品庫存
-            Product productOrigin = productRepository.findByProductId(product.getProductId());
-            productOrigin.setProductId(productOrigin.getProductId());
-            productOrigin.setProductName(productOrigin.getProductName());
-            productOrigin.setPrice(productOrigin.getPrice());
-            productOrigin.setProductCategory(productOrigin.getProductCategory());
-            productOrigin.setStock(productOrigin.getStock() - buyItem.getQuantity());
-            productOrigin.setCreatedDate(productOrigin.getCreatedDate());
+//            Product productOrigin = productRepository.findByProductId(product.getProductId());
+//            productOrigin.setProductId(productOrigin.getProductId());
+//            productOrigin.setProductName(productOrigin.getProductName());
+//            productOrigin.setPrice(productOrigin.getPrice());
+//            productOrigin.setProductCategory(productOrigin.getProductCategory());
+//            productOrigin.setStock(productOrigin.getStock() - buyItem.getQuantity());
+//            productOrigin.setCreatedDate(productOrigin.getCreatedDate());
 
-            productRepository.save(productOrigin);
+            productRepository.updateProduct(product.getProductId(), buyItem.getQuantity());
 
             //
             int amount = buyItem.getQuantity() * product.getPrice();
@@ -98,7 +104,8 @@ public class OrderServiceImpl implements OrderService {
         orderSum.setTotalAmount(totalAmount);
         OrderSum created = orderRepository.save(orderSum);
 
-        orderItemRepository.saveAll(orderItemList);
+        List<OrderItem> orderItemList1 = orderItemRepository.saveAll(orderItemList);
+        created.setOrderItemList(orderItemList1);
         return created;
     }
 }

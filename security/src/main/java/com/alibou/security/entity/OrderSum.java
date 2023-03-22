@@ -1,12 +1,12 @@
 package com.alibou.security.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import java.util.Date;
 import java.util.List;
@@ -22,9 +22,8 @@ public class OrderSum {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Column(name = "order_id")
-    private Long orderId;
+    private Integer orderId;
     private Integer userId;
     private Integer totalAmount;
 
@@ -34,6 +33,6 @@ public class OrderSum {
     @UpdateTimestamp
     private Date lastModifiedDate;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderSum")
     private List<OrderItem> orderItemList;
 }
