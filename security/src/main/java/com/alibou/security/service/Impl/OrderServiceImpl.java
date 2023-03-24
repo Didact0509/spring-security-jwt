@@ -42,12 +42,6 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderSum> getOrdersById(Integer userId) {
         List<OrderSum> orderSumList = orderRepository.findOrderSumsByUserId(userId);
 
-        for (OrderSum orderSum : orderSumList) {
-            List<OrderItem> orderItemList = orderItemRepository.findAll();
-
-            orderSum.setOrderItemList(orderItemList);
-        }
-
         return orderSumList;
     }
 

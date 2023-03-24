@@ -33,6 +33,7 @@ public class OrderSum {
     @UpdateTimestamp
     private Date lastModifiedDate;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderSum")
+    @OneToMany(targetEntity = OrderItem.class)
+    @JoinColumn(name = "order_id")
     private List<OrderItem> orderItemList;
 }
